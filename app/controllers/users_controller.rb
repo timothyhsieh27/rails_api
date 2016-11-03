@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
 skip_before_action :verify_authenticity_token
+
   def display
     @users = User.all
     render json: @users
@@ -16,15 +17,17 @@ skip_before_action :verify_authenticity_token
   end
 
   def update
-    @user = User.find params[:id]
-    if @user.update user_params
-      render :json => @user
+    @user = User.find_by(username: params['username'], score: params['score'])
+    if @user.update(username: params['new_username'], score: params['new_score'])
+      render json: @users
     else
       render_error @user.errors.full_messages
     end
   end
 
   def delete
+    @user = User.find_by(username: params['username'], score: params['score'])
+    @user.destroy
   end
 
   private
