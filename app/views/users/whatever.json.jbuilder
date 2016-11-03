@@ -6,6 +6,7 @@
 # <% end %>
 
 json.(@users, :username, :score)
+
 # json.users @user do |user|
 #   json.username    user.username
 #   json.score       user.score

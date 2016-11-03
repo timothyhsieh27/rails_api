@@ -1,14 +1,15 @@
 class UsersController < ApplicationController
+skip_before_action :verify_authenticity_token
   def display
     @users = User.all
-    @users
-    render :json => @users
+    render json: @users
   end
 
   def create
-    @user = User.new user_params
+    @user = User.create(username: params['username'], score: params['score'])
+    # @user = User.create user_params
     if @user.save
-      render :json => @user
+      render json: @users
     else
       render_error @user.errors.full_messages
     end
@@ -16,7 +17,6 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find params[:id]
-    @user
     if @user.update user_params
       render :json => @user
     else
@@ -30,6 +30,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username)
+    params.require(:user).permit(:username, :score)
   end
 end
