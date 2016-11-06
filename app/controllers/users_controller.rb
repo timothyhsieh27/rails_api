@@ -6,6 +6,11 @@ attr_accessor :username, :score
     render :json => @users
   end
 
+  def find
+    @user = User.find_by(username: params['username'])
+    render :json => @user
+  end
+
   def create
     @user = User.create(username: params['username'], score: params['score'])
     # @user = User.create user_params
@@ -17,7 +22,7 @@ attr_accessor :username, :score
   end
 
   def update
-    @user = User.find_by(username: params['username'], score: params['score'])
+    @user = User.find_by(username: params['username'])
     if @user.update(username: params['new_username'], score: params['new_score'])
       render :json => @user
     else

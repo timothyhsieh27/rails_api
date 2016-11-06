@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 # root 'users#display'
 
 get '/users' => 'users#display'
+get '/users/user' => 'users#find'
 
 post '/users' => 'users#create'
 
