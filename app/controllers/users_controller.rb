@@ -10,7 +10,7 @@ attr_accessor :username, :score
     @user = User.create(username: params['username'], score: params['score'])
     # @user = User.create user_params
     if @user.save
-      render :show
+      render :json => @user
     else
       render_error @user.errors.full_messages
     end
