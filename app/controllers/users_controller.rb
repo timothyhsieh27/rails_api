@@ -1,14 +1,10 @@
 class UsersController < ApplicationController
 skip_before_action :verify_authenticity_token
 attr_accessor :username, :score
+
   def display
     @users = User.all
     render :json => @users
-  end
-
-  def find
-    @user = User.find_by(username: params['username'])
-    render :json => @user
   end
 
   def create
@@ -22,8 +18,9 @@ attr_accessor :username, :score
   end
 
   def update
-    @user = User.find_by(username: params['username'])
-    if @user.update(username: params['new_username'], score: params['new_score'])
+    @user = User.find(params[:id])
+    # @user = User.find_by(username: params['username'])
+    if @user.update user_params
       render :json => @user
     else
       render_error @user.errors.full_messages
@@ -35,4 +32,12 @@ attr_accessor :username, :score
     @user.destroy
   end
 
+  def user_params
+    params.permit(:username, :score)
+  end
+
 end
+
+# @user = User.find(params[:id])
+# @user.username = params[:username]
+# @user.score = params[:score]
